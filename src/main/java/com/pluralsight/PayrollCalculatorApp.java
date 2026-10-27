@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class PayrollCalculatorApp {
@@ -30,7 +31,7 @@ public class PayrollCalculatorApp {
         }
         // handle invalid input
             if (selectedFile == null) {
-                System.out.println("ERROR: Could not find file matching" + " " + userInput + "." + "Please check your spelling!");
+                System.out.println("ERROR: Could not find file matching" + " " + userInput + "." + " " + "Please check your spelling!");
                 return;
             }
         // TRY with resources
@@ -38,13 +39,20 @@ public class PayrollCalculatorApp {
             String input;
             System.out.println("\n--- Payroll Processing Report ___");
             System.out.printf("%-10s %-20s %-10s%n", "ID", "Name", "Gross Pay");
-            System.out.println("---------------------------------------");
+            System.out.println("------------------------------------------");
 
             // read line by line until NULL
             while ((input = bufReader.readLine()) != null) {
+                // skip empty lines or header text if any exist in the file
+                if (input.trim().isEmpty() || input.toLowerCase().contains("id") || input.toLowerCase().contains("hours")) {
+                    continue; // skip this iteration and move to the next line
+                }
                 // split line by the pipe character |
                 String[] tokens = input.split("\\|");
-
+                // ensure the line has all 4 expected columns before parsing
+                if (tokens.length < 4) {
+                    continue;
+                }
                 // parse tokens into variables matching employee
                 int id = Integer.parseInt(tokens[0]);
                 String name = tokens[1];
@@ -53,6 +61,7 @@ public class PayrollCalculatorApp {
 
                 // create a new employee object with parsed data
                 Employee employee = new Employee(id, name, hoursWorked, payRate);
+
                 // display formatted employee details
                 System.out.printf("%-10d %-20s $%-9.2f%n",
                         employee.getEmployeeId(),
