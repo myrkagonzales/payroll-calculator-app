@@ -1,3 +1,6 @@
+package com.pluralsight;
+
+
 public class Employee {
 
     // private ecapsulation
@@ -14,6 +17,7 @@ public class Employee {
         this.payRate = payRate;
 
     }
+
     // Getters and Setters
     public int getEmployeeId() {
         return employeeId;
@@ -47,5 +51,11 @@ public class Employee {
         this.payRate = payRate;
     }
 
-}
+    // method to calculate gross pay
+    public double getGrossPay() {
+        return this.hoursWorked * this.payRate;
+    }
+
+    }
+
 
