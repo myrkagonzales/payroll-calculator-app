@@ -3,7 +3,6 @@ package com.pluralsight;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class PayrollCalculatorApp {
@@ -11,7 +10,9 @@ public class PayrollCalculatorApp {
     public static void main(String[] args) {
         /// list of available files inside project
         String[] availableFiles = {
-                "employees"
+                "employees.csv",
+                "inventory.csv",
+                "products.csv",
         };
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the name of the file to process: ");
@@ -30,10 +31,10 @@ public class PayrollCalculatorApp {
             }
         }
         // handle invalid input
-            if (selectedFile == null) {
-                System.out.println("ERROR: Could not find file matching" + " " + userInput + "." + " " + "Please check your spelling!");
-                return;
-            }
+        if (selectedFile == null) {
+            System.out.println("ERROR: Could not find file matching" + " " + userInput + "." + " " + "Please check your spelling!");
+            return;
+        }
         // TRY with resources
         try (BufferedReader bufReader = new BufferedReader(new FileReader(selectedFile))) {
             String input;
